@@ -1,0 +1,13 @@
+<section class="post">
+  <div class="post-details">
+    <h3>{{post.title}}</h3>
+    <p>Posted by {{post.user.username}} on {{post.post_date}}</p>
+    <p>{{post.content}}</p>
+  </div>
+  <div class="post-details">
+    {{#each post.comments}}
+    <p>{{this.content}}</p>
+    <p>{{user.username.id[this.author_id]}} {{this.post_date}}</p>
+    {{/each}}
+  </div>
+</section>
