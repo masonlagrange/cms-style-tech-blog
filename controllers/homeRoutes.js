@@ -44,15 +44,27 @@ router.get('/post/:id', withAuth, async (req, res) => {
         },
      ]
 })
-  const commentAuthor = await User.findAll({where: {: req.params.id}})
     const postDisplay2 = postDisplay.get({plain: true})
-    const commentAuthor2 = commentAuthor.get({plain: true})
-    const post = postDisplay2 + commentAuthor2
+    var post
+    console.log(postDisplay2)
+    if (postDisplay2.comments.length != 0) {
+      const commentAuthor = await User.findAll({where: {id: postDisplay2.comments[0].author_id}})
+      const commentAuthor2 = commentAuthor.map((user) => 
+      user.get({plain: true})
+    )
+      post = {post: postDisplay2, author: commentAuthor2}
+      res.render('post', { 
+        post, 
+        loggedIn: req.session.loggedIn
+      })
+    } else {
+      post = postDisplay2
+      res.render('post', { 
+        post, 
+        loggedIn: req.session.loggedIn
+      })
+    }
     console.log(post)
-    res.render('post', { 
-      post, 
-      loggedIn: req.session.loggedIn
-    })
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

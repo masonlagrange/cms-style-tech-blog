@@ -1,13 +1,21 @@
 <section class="post">
   <div class="post-details">
+    {{#if post.post}}
+    <h3>{{post.post.title}}</h3>
+    <p>Posted by {{post.post.user.username}} on {{post.post.post_date}}</p>
+    <p>{{post.post.content}}</p>
+  </div>
+  <div class="post-details">
+    {{#each post.post.comments}}
+    <p>{{this.content}}</p>
+    {{/each}}
+    {{#if post.post.comments}}
+    <p>- {{post.author.[0].username}}</p>
+    {{/if}}
+    {{else}}
     <h3>{{post.title}}</h3>
     <p>Posted by {{post.user.username}} on {{post.post_date}}</p>
     <p>{{post.content}}</p>
-  </div>
-  <div class="post-details">
-    {{#each post.comments}}
-    <p>{{this.content}}</p>
-    <p>{{user.username.id[this.author_id]}} {{this.post_date}}</p>
-    {{/each}}
+    {{/if}}
   </div>
 </section>
