@@ -13,7 +13,6 @@ router.post('/new_post', async (req, res) => {
       });
       // if the post is successfully created, the new response will be returned as json
       res.status(200).json(postData)
-      console.log(postData)
     } catch (err) {
       res.status(400).json(err);
     }
