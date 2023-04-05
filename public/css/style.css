@@ -1,10 +1,12 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 :root {
-  --primary: #3d5852;
+  --primary: #5e8d83;
   --secondary: #86938f;
   --tertiary: #5e877f;
   --quatrinary: #6c6b67;
   --light: #e3e4e3;
-  --dark: #182c23;
+  --dark: #0c1612;
   --error: rgb(228, 46, 1);
   --border-radius: 0.3rem;
 }
@@ -16,7 +18,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   justify-content: flex-start;
-  background-color: var(--quatrinary);
+  background-color: var(--primary);
 }
 
 a {
@@ -24,15 +26,18 @@ a {
   text-decoration: none;
 }
 
-a:visited {
-  color: inherit;
-}
-
 header {
   padding: 40px;
   text-align: center;
-  background: var(--primary);
-  color: var(--light);
+  background: var(--dark);
+  color: var(--primary);
+}
+
+.header {
+  padding: 40px;
+  text-align: center;
+  background: var(--dark);
+  color: var(--primary);
 }
 
 main {
@@ -41,21 +46,13 @@ main {
   flex-grow: 1;
 }
 
-aside {
-  flex: 0;
-  background-color: var(--tertiary);
-  padding: 80px;
-  text-align: left;
-  color: var(--light);
-}
-
 nav {
   display: flex;
-  background-color: var(--secondary);
+  background-color: var(--dark);
 }
 
 nav a {
-  color: var(--light);
+  color: var(--primary);
   padding: 14px 20px;
   text-decoration: none;
   text-align: center;
@@ -67,51 +64,33 @@ nav a:hover {
 }
 
 .homePosts {
-  flex: 4;
-  background-color: #fff;
+  flex: 12;
+  background-color: var(--primary);
   padding: 50px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  align-items: center;
+  align-items: top;
+  height: fit-content;
 }
 
 .btn-no-style {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+  color: var(--primary);
   text-decoration: none;
-  font-size: 100%;
-  transition: color 0.1s;
-  margin-left: 16px;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.painting {
-  width: 50%;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 25px;
-}
-
-.painting-details {
   text-align: center;
-  padding: 10px 20px;
-  font-weight: bold;
+  background-color: var(--dark);
+}
+
+.btn-no-style:hover {
+  color: var(--secondary);
+  background-color: var(--dark);
 }
 
 /* CARDS */
 .card {
-  margin: 20px;
-  flex: 0 1 300px;
   border: 7px double var(--dark);
   border-radius: 10px;
-  background-color: var(--light);
+  background-color: var(--primary);
   color: var(--dark);
 }
 
@@ -124,16 +103,15 @@ img {
   border-radius: var(--border-radius);
   border-style: double;
   border-width: thick;
-  background-color: #577a7c;
-  color: var(--light);
+  background-color: var(--dark);
+  color: var(--primary);
 }
 
 .card header {
-  color: var(--light);
+  color: var(--primary);
   font-weight: bold;
-  text-transform: uppercase;
   margin: 0;
-  background-color: var(--tertiary);
+  background-color: var(--dark);
   padding: 0.625rem;
   border-radius: calc(0.18rem - 1px) calc(0.18rem - 1px) 0 0;
 }
@@ -144,21 +122,66 @@ img {
   font-weight: bold;
 }
 
-.post-name {
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 2px 2px 5px var(--secondary);
-  border: 10px groove var(--light);
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-right: 100px;
-  padding-left: 100px;
-}
-
 /* LAYOUT */
 .container {
   display: flex;
   flex-flow: column wrap;
   align-content: flex-start;
   align-items: center;
+}
+
+/* forum posts */
+.post {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: var(--primary);
+  border: 1px solid var(--dark);
+  border-radius: 4px;
+}
+
+.post h2 {
+  margin-top: 0;
+}
+
+.post .meta {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.post .comments {
+  margin-top: 20px;
+}
+
+/* comment */
+.comment {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: var(--primary);
+  border: 1px solid var(--dark);
+  border-radius: 4px;
+}
+
+.comment h4 {
+  margin-top: 0;
+}
+
+.comment .meta {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+/* login window */
+.login {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.login .panel-heading {
+  font-size: 18px;
+}
+
+.login input[type="email"],
+.login input[type="password"] {
+  margin-bottom: 10px;
 }

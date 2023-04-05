@@ -4,7 +4,7 @@ const Comment = require('../models/Comment');
 const User = require('../models/User');
 const withAuth = require('../utils/auth')
 
-router.get('/', withAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     // Get all posts
     const postDisplay = await Post.findAll({
@@ -31,6 +31,63 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
+router.get('/dashboard', withAuth, async (req, res) => {
+  try {
+    // Get all posts
+    const postDisplay = await Post.findAll({
+      where: {author_id: req.session.user},
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'id']
+        }
+      ]
+    })
+
+    const posts = postDisplay.map((post) => 
+      post.get({plain: true})
+    )
+
+    // Pass serialized data into Handlebars.js template
+    res.render('dashboard', { 
+      posts,
+      loggedIn:req.session.loggedIn,
+      dash:true
+    });
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err);
+  }
+});
+
+router.get('/dashboard/new_post', withAuth, async (req, res) => {
+  try {
+    const postDisplay = await Post.findAll({
+      where: {author_id: req.session.user},
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'id']
+        }
+      ]
+    })
+
+    const posts = postDisplay.map((post) => 
+      post.get({plain: true})
+    )
+
+    res.render('dashboard', { 
+      posts,
+      loggedIn:req.session.loggedIn,
+      dash: true,
+      newPost: true
+    });
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err);
+  }
+})
+
 router.get('/post/:id', withAuth, async (req, res) => {
   try {
     const postDisplay = await Post.findByPk(req.params.id, {
@@ -46,7 +103,6 @@ router.get('/post/:id', withAuth, async (req, res) => {
 })
     const postDisplay2 = postDisplay.get({plain: true})
     var post
-    console.log(postDisplay2)
     if (postDisplay2.comments.length != 0) {
       const commentAuthor = await User.findAll({where: {id: postDisplay2.comments[0].author_id}})
       const commentAuthor2 = commentAuthor.map((user) => 
@@ -54,17 +110,23 @@ router.get('/post/:id', withAuth, async (req, res) => {
     )
       post = {post: postDisplay2, author: commentAuthor2}
       res.render('post', { 
+        newComment: true,
         post, 
         loggedIn: req.session.loggedIn
       })
     } else {
       post = postDisplay2
-      res.render('post', { 
+      res.render('post', {
+        newComment: true, 
         post, 
         loggedIn: req.session.loggedIn
       })
     }
-    console.log(post)
+    req.session.save(() => {
+      req.session.post_id = req.params.id,
+      res
+        .status(200)
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
